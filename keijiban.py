@@ -1,10 +1,7 @@
 import streamlit as st
 import pandas as pd
-# from datetime import date
-from datetime import datetime
-# from dateutil.relativedelta import relativedelta
-# import yfinance as yf #追加
-# yf.pdr_override() #追加
+# from datetime import datetime
+import datetime
 
 st.title('掲示板　-　イチゲブログ')
 st.caption('最下部の入力欄に書いてEnterしてください。削除も可能です。')
@@ -28,7 +25,11 @@ if prompt:
     st.markdown("<hr>", unsafe_allow_html=True)
     message1 = st.chat_message("user")
     message1.write(f"内容：{prompt}")
-    dt_now = datetime.now()
+    # dt_now = datetime.now()
+    t_delta = datetime.timedelta(hours=9)  # 9時間
+    JST = datetime.timezone(t_delta, 'JST')  # UTCから9時間差の「JST」タイムゾーン
+    dt_now = datetime.datetime.now(JST)  # タイムゾーン付きでローカルな日付と時刻を取得
+
     toukoubi=dt_now.strftime('%Y年%m月%d日 %H:%M:%S')
     columns = [ '投稿日','内容']
     list = [[toukoubi,prompt]]
